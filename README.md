@@ -14,8 +14,6 @@ $ git clone https://github.com/micropython/uaesgcm.git
 $ cd micropython
 micropython$ git submodule update --init --depth 1
 micropython$ git clone https://github.com/dmazzella/uaesgcm.git usercmodule/uaesgcm
-micropython$ cd usercmodule/uaesgcm
-ucryptography$ cd ../../
 micropython$ make -j2 -C mpy-cross/
 micropython$ make -j2 -C ports/unix/ MICROPY_PY_BTREE=0 MICROPY_SSL_MBEDTLS=1 USER_C_MODULES="$(pwd)/usercmodule"
 ```
