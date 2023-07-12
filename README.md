@@ -7,7 +7,7 @@
 
 To build such a module, compile MicroPython with an extra make flag named ```USER_C_MODULES``` set to the directory containing all modules you want included (not to the module itself).
 
-### Compiling the cmodule into unix port
+### Prepare for compile the module
 
 ```bash
 $ git clone https://github.com/micropython/uaesgcm.git
@@ -15,7 +15,16 @@ $ cd micropython
 micropython$ git submodule update --init --depth 1
 micropython$ git clone https://github.com/dmazzella/uaesgcm.git usercmodule/uaesgcm
 micropython$ make -j2 -C mpy-cross/
+```
+
+### Compiling the cmodule into unix port
+```bash
 micropython$ make -j2 -C ports/unix/ MICROPY_PY_BTREE=0 MICROPY_SSL_MBEDTLS=1 USER_C_MODULES="$(pwd)/usercmodule"
+```
+
+### Compiling the cmodule into ESP32 port
+```bash
+micropython$ make -j2 -C ports/esp32/ MICROPY_PY_BTREE=0 MICROPY_SSL_MBEDTLS=1 USER_C_MODULES="$(pwd)/usercmodule/uaesgcm/micropython.cmake"
 ```
 
 ```python
