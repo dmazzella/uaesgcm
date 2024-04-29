@@ -40,7 +40,7 @@
 
 #include "AesGCM.h"
 
-STATIC int mp_random(void *rng_state, byte *output, size_t len)
+static int mp_random(void *rng_state, byte *output, size_t len)
 {
     size_t use_len;
     int rnd;
@@ -64,7 +64,7 @@ STATIC int mp_random(void *rng_state, byte *output, size_t len)
     return 0;
 }
 
-STATIC const mp_obj_type_t ciphers_aesgcm_type;
+static const mp_obj_type_t ciphers_aesgcm_type;
 
 typedef struct _mp_ciphers_aesgcm_t
 {
@@ -72,7 +72,7 @@ typedef struct _mp_ciphers_aesgcm_t
     vstr_t *key;
 } mp_ciphers_aesgcm_t;
 
-STATIC mp_obj_t aesgcm_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *args)
+static mp_obj_t aesgcm_make_new(const mp_obj_type_t *type, size_t n_args, size_t n_kw, const mp_obj_t *args)
 {
     mp_arg_check_num(n_args, n_kw, 1, 1, false);
     mp_obj_t key = args[0];
@@ -88,7 +88,7 @@ STATIC mp_obj_t aesgcm_make_new(const mp_obj_type_t *type, size_t n_args, size_t
     return MP_OBJ_FROM_PTR(AESGCM);
 }
 
-STATIC mp_obj_t aesgcm_generate_key(mp_obj_t bit_length)
+static mp_obj_t aesgcm_generate_key(mp_obj_t bit_length)
 {
 #if !defined(__thumb2__) && !defined(__thumb__) && !defined(__arm__)
     time_t t;
@@ -114,10 +114,10 @@ STATIC mp_obj_t aesgcm_generate_key(mp_obj_t bit_length)
     return oo;
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_1(mod_aesgcm_generate_key_obj, aesgcm_generate_key);
-STATIC MP_DEFINE_CONST_STATICMETHOD_OBJ(mod_static_aesgcm_generate_key_obj, MP_ROM_PTR(&mod_aesgcm_generate_key_obj));
+static MP_DEFINE_CONST_FUN_OBJ_1(mod_aesgcm_generate_key_obj, aesgcm_generate_key);
+static MP_DEFINE_CONST_STATICMETHOD_OBJ(mod_static_aesgcm_generate_key_obj, MP_ROM_PTR(&mod_aesgcm_generate_key_obj));
 
-STATIC mp_obj_t aesgcm_encrypt(size_t n_args, const mp_obj_t *args)
+static mp_obj_t aesgcm_encrypt(size_t n_args, const mp_obj_t *args)
 {
     (void)n_args;
 
@@ -148,9 +148,9 @@ STATIC mp_obj_t aesgcm_encrypt(size_t n_args, const mp_obj_t *args)
     return oo;
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mod_aesgcm_encrypt_obj, 4, 4, aesgcm_encrypt);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mod_aesgcm_encrypt_obj, 4, 4, aesgcm_encrypt);
 
-STATIC mp_obj_t aesgcm_decrypt(size_t n_args, const mp_obj_t *args)
+static mp_obj_t aesgcm_decrypt(size_t n_args, const mp_obj_t *args)
 {
     (void)n_args;
 
@@ -181,41 +181,41 @@ STATIC mp_obj_t aesgcm_decrypt(size_t n_args, const mp_obj_t *args)
     return oo;
 }
 
-STATIC MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mod_aesgcm_decrypt_obj, 4, 4, aesgcm_decrypt);
+static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mod_aesgcm_decrypt_obj, 4, 4, aesgcm_decrypt);
 
-STATIC const mp_rom_map_elem_t aesgcm_locals_dict_table[] = {
+static const mp_rom_map_elem_t aesgcm_locals_dict_table[] = {
     {MP_ROM_QSTR(MP_QSTR_generate_key), MP_ROM_PTR(&mod_static_aesgcm_generate_key_obj)},
     {MP_ROM_QSTR(MP_QSTR_encrypt), MP_ROM_PTR(&mod_aesgcm_encrypt_obj)},
     {MP_ROM_QSTR(MP_QSTR_decrypt), MP_ROM_PTR(&mod_aesgcm_decrypt_obj)},
 };
 
-STATIC MP_DEFINE_CONST_DICT(aesgcm_locals_dict, aesgcm_locals_dict_table);
+static MP_DEFINE_CONST_DICT(aesgcm_locals_dict, aesgcm_locals_dict_table);
 
-STATIC MP_DEFINE_CONST_OBJ_TYPE(
+static MP_DEFINE_CONST_OBJ_TYPE(
     ciphers_aesgcm_type,
     MP_QSTR_AESGCM,
     MP_TYPE_FLAG_NONE,
     make_new, aesgcm_make_new,
     locals_dict, &aesgcm_locals_dict);
 
-STATIC const mp_rom_map_elem_t ciphers_locals_dict_table[] = {
+static const mp_rom_map_elem_t ciphers_locals_dict_table[] = {
     {MP_ROM_QSTR(MP_QSTR_AESGCM), MP_ROM_PTR(&ciphers_aesgcm_type)},
 };
 
-STATIC MP_DEFINE_CONST_DICT(ciphers_locals_dict, ciphers_locals_dict_table);
+static MP_DEFINE_CONST_DICT(ciphers_locals_dict, ciphers_locals_dict_table);
 
-STATIC MP_DEFINE_CONST_OBJ_TYPE(
+static MP_DEFINE_CONST_OBJ_TYPE(
     ciphers_type,
     MP_QSTR_ciphers,
     MP_TYPE_FLAG_NONE,
     locals_dict, &ciphers_locals_dict);
 
-STATIC const mp_rom_map_elem_t mp_module_uaesgcm_globals_table[] = {
+static const mp_rom_map_elem_t mp_module_uaesgcm_globals_table[] = {
     {MP_ROM_QSTR(MP_QSTR___name__), MP_ROM_QSTR(MP_QSTR__aesgcm)},
     {MP_ROM_QSTR(MP_QSTR_ciphers), MP_ROM_PTR((mp_obj_type_t *)&ciphers_type)},
 };
 
-STATIC MP_DEFINE_CONST_DICT(mp_module_uaesgcm_globals, mp_module_uaesgcm_globals_table);
+static MP_DEFINE_CONST_DICT(mp_module_uaesgcm_globals, mp_module_uaesgcm_globals_table);
 
 const mp_obj_module_t mp_module_uaesgcm = {
     .base = {&mp_type_module},
